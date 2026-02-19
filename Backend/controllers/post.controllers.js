@@ -160,7 +160,7 @@ export const deletePost = async (req, res) => {
     try {
         const postId = req.params.id;
         const authorId = req.userId;
-        const post = await Post.findById(postId).select("author imageUrl").session(session)
+        const post = await Post.findById(postId).select("author image").session(session)
         if (!post) {
             await session.abortTransaction();
             return res.status(404).json(new ApiResponse(404, {}, "post not found"));
@@ -170,7 +170,7 @@ export const deletePost = async (req, res) => {
             await session.abortTransaction();
             return res.status(403).json(new ApiResponse(403, {}, "Access Denied"));
         }
-        const publicId = post.imageUrl?.publicId;
+        const publicId = post.image?.publicId;
         // we have to delete post from users also
         await Post.findByIdAndDelete(postId).session(session)
         await User.updateOne(

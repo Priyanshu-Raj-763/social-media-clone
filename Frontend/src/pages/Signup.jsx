@@ -15,6 +15,7 @@ import { toast } from "sonner";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "@/lib/axios";
+import ThemeToggleBtn from "@/components/ThemeToggleBtn";
 
 const Signup = () => {
   const navigate = useNavigate()
@@ -48,11 +49,13 @@ const Signup = () => {
     <div className="min-h-screen bg-background flex items-center justify-center px-4">
       <Card className={"w-full max-w-md bg-card text-foreground"}>
         <CardHeader>
+          <div className="flex w-full justify-between items-center text-xl">
           <CardTitle>Signup to Create your Account</CardTitle>
+          <ThemeToggleBtn/>
+          </div>
           <CardDescription>Welcome to our App</CardDescription>
         </CardHeader>
         <CardContent>
-
           <form onSubmit={handleSubmit(handleSignup)} className="space-y-4" >
             <div>
               <Label htmlFor="username" className={"m-2 text-lg"}>Username</Label>

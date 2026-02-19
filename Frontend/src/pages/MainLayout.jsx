@@ -1,4 +1,4 @@
-import { Outlet,  } from 'react-router-dom'
+import { Outlet, } from 'react-router-dom'
 import Sidebar from '../components/Sidebar'
 import BottomBar from '@/components/BottomBar'
 
@@ -11,6 +11,7 @@ const MainLayout = () => {
         <BottomBar />
       </div>
       <div className='flex-4'>
+        
         <Outlet />
       </div>
     </main>

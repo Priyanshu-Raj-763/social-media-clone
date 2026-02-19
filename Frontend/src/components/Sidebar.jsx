@@ -1,21 +1,19 @@
-import { Heart, Home, LogOut, MessageCircle, Moon, PlusSquare, Search, Sun, TrendingUp } from 'lucide-react'
+import { Heart, Home, LogOut, MessageCircle, PlusSquare, Search, TrendingUp } from 'lucide-react'
 import { useState } from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { useDispatch, useSelector } from 'react-redux'
 import { logoutUser } from '@/store/authSlice.js'
-import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 import LogoutDialog from './LogoutDialog'
 import CreatePostDialog from './CreatePostDialog'
-import { Button } from './ui/button'
-import { toggleTheme } from '@/store/themeSlice.js'
 import { myErrorRes } from '@/lib/utils'
 import api from '@/lib/axios'
+import ThemeToggleBtn from './ThemeToggleBtn'
 
 const Sidebar = () => {
+  const [selected, setselected] = useState();
   const { user } = useSelector(state => state.auth)
-  const { mode } = useSelector(state => state.theme)
   const {likeNotification} = useSelector(s=>s.realTimeNotification)
   const dispatch = useDispatch()
   const links = [
@@ -51,6 +49,7 @@ const Sidebar = () => {
     }
   }
   const sidebarHandler = (text) => {
+    setselected(text)
     if (text === "Logout") {
       setOpenLogoutDiaglog(true)
     } else if (text === "Create") {
@@ -73,11 +72,11 @@ const Sidebar = () => {
     <div className=' fixed md:block hidden w-1/5 md:top-0 h-screen bg-sidebar text-sidebar-foreground border-r border-sidebar-border z-10'>
       <div className='flex items-center justify-between px-4'>
         <h1 className='m-4 text-xl font-bold'>Logo</h1>
-        <Button variant='ghost' onClick={() => dispatch(toggleTheme())}>{mode === "dark" ? <Sun /> : <Moon />}</Button>
+        <ThemeToggleBtn/>
       </div>
       <div>
         {links.map((link, idx) => (
-          <div onClick={() => sidebarHandler(link.title)} key={idx} className='flex gap-3 p-4 relative hover:bg-sidebar-border transition-all duration-100 ease-in-out cursor-pointer'>
+          <div onClick={() => sidebarHandler(link.title)} key={idx} className={`flex gap-3 p-4 relative  ${selected ===link.title ? "bg-primary":"hover:bg-primary/50"} transition-all duration-100 ease-in-out cursor-pointer`}>
             <div className='relative'>{link.icon}
            {link.title ==="Notification" && likeNotification.length > 0  &&(
             <div className='bg-red-600 rounded-full text-center w-4 h-4 text-xs absolute -top-2 -left-2'>{likeNotification?.length}</div>

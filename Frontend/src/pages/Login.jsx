@@ -14,9 +14,10 @@ import {
 import { toast } from "sonner";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setLoggedInUser } from "@/store/authSlice.js";
 import api from "@/lib/axios";
+import ThemeToggleBtn from "@/components/ThemeToggleBtn";
 
 const Login = () => {
   const dispatch = useDispatch()
@@ -45,10 +46,13 @@ const Login = () => {
 
   }
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center px-4">
-      <Card className={"w-full max-w-md bg-card text-foreground"}>
+    <div className="min-h-screen bg-background flex items-center justify-center px-4 ">
+      <Card className={"w-full max-w-md bg-card text-foreground z-10"}>
         <CardHeader>
-          <CardTitle>Login to Your Account</CardTitle>
+          <div className="text-xl   flex w-full justify-between items-center">
+            <CardTitle>Login to Your Account</CardTitle>
+            <ThemeToggleBtn />
+          </div>
           <CardDescription>login to see your friends post</CardDescription>
         </CardHeader>
         <CardContent>
@@ -75,7 +79,7 @@ const Login = () => {
                 </p>)}
             </div>
             <div className={"flex justify-center"}>
-              <Button size="lg" type="submit" disabled={isLoading} >{isLoading ? "Logging.." : "Login"}</Button>
+              <Button className={"cursor-pointer"} size="lg" type="submit" disabled={isLoading} >{isLoading ? "Logging.." : "Login"}</Button>
             </div>
           </form>
         </CardContent>
@@ -83,6 +87,7 @@ const Login = () => {
           <p className="mx-auto text-foreground">Doesn't have an account? <Link className="text-primary" to={"/signup"}>Signup</Link>  </p>
         </CardFooter>
       </Card>
+
     </div>
   )
 }

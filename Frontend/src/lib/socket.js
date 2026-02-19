@@ -4,9 +4,14 @@ let socket = null;
 
 export function connectSocket(userId) {
   if (socket) return socket; 
+  const socketURL =
+  import.meta.env.DEV
+  ? "http://localhost:3000"
+  : "/";
 
-  socket = io("https://momenthub.onrender.com/", {
+  socket = io(socketURL, {
     query: { userId },
+    withCredentials: true,
     transports: ["websocket"],
   });
 

@@ -46,10 +46,13 @@ const CreatePostDialog = ({ openPostDiaglog, setOpenPostDiaglog }) => {
             if (response.data.success) {
                 dispatch(setPosts([response.data.data, ...posts]))
                 setOpenPostDiaglog(false)
+                setFile("")
+                setcaption("")
+                setImagePreview("")
                 toast.success(response.data.message);
             }
         } catch (error) {
-            // console.log(error)
+            console.log(error)
             if (axios.isAxiosError(error)) {
                 toast.error(
                     error.response?.data?.message || "Something went wrong"
@@ -66,6 +69,7 @@ const CreatePostDialog = ({ openPostDiaglog, setOpenPostDiaglog }) => {
             <DialogContent className={"border-none"} onInteractOutside={() => {
                 setOpenPostDiaglog(false)
                 setImagePreview("")
+                setcaption("")
             }} showCloseButton={false}>
                 <DialogHeader>
                     <DialogTitle className={"text-center text-foreground"}>Create new post</DialogTitle>
@@ -81,7 +85,7 @@ const CreatePostDialog = ({ openPostDiaglog, setOpenPostDiaglog }) => {
                             </div>
                         )
                     }
-                    <Textarea className={""} placeholder={"Write your caption here.."} value={caption} onChange={(e) => setcaption(e.target.value)} />
+                    <Textarea className={"text-foreground"} placeholder={"Write your caption here.."} value={caption} onChange={(e) => setcaption(e.target.value)} />
                     <input ref={imageRef} type="file" accept="image/*" className="hidden" onChange={fileChangeHandler} />
                     <Button onClick={() => {
                         imageRef.current.click()

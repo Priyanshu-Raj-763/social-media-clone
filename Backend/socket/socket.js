@@ -1,12 +1,12 @@
 import { Server } from "socket.io";
 import express from "express";
-import http, { METHODS } from "http"
+import http from "http"
 
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: process.env.VITE_API_URL,
+        origin: ["http://localhost:5173","https://momenthub.onrender.com"],
         methods: ['GET', 'POST']
     }
 })

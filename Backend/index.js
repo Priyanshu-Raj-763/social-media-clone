@@ -16,7 +16,7 @@ const __dirname = path.resolve()
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 const corsOptions = {
-    origin: process.env.VITE_API_URL,
+    origin:[ process.env.VITE_API_URL,"http://localhost:5173"],
     credentials: true
 }
 app.use(cookieParser());
@@ -25,11 +25,12 @@ app.use("/api/v1/user", userRouter)
 app.use("/api/v1/post", postRouter)
 app.use("/api/v1/message", messageRouter)
 
+
+if (process.env.NODE_ENV === "production") {
 app.use(express.static(path.join(__dirname, "Frontend", "dist")))
 app.use((req, res) => {
     res.sendFile(path.join(__dirname, "Frontend", "dist", "index.html"))
-
-})
+})}
 
 DbConnnect().then(() => {
     server.listen(PORT, () => console.log(`server is listening to PORT ${PORT}`))

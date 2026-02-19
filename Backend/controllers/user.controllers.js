@@ -55,7 +55,7 @@ export const loginUser = async (req, res) => {
         },
             process.env.TOKEN_SECRET_KEY,
             {
-                expiresIn: "1d"
+                expiresIn: "1h"
             })
 
         const options = {
