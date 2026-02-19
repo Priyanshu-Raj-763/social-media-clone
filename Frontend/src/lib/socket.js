@@ -5,7 +5,7 @@ let socket = null;
 export function connectSocket(userId) {
   if (socket) return socket; 
 
-  socket = io("http://localhost:3000", {
+  socket = io("https://momenthub.onrender.com/", {
     query: { userId },
     transports: ["websocket"],
   });

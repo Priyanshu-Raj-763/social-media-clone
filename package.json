@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "node --watch index.js",
+    "dev": "node --watch Backend/index.js",
     "build": "npm install && npm install --prefix Frontend && npm run build --prefix Frontend",
     "start": "node Backend/index.js"
   },
