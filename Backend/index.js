@@ -3,7 +3,6 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors"
 import DbConnnect from "./utils/db.js";
-import { ApiResponse } from "./utils/api-response.js";
 import userRouter from "./routes/user.routes.js"
 import messageRouter from "./routes/message.routes.js"
 import postRouter from "./routes/post.routes.js"
@@ -26,9 +25,9 @@ app.use("/api/v1/user", userRouter)
 app.use("/api/v1/post", postRouter)
 app.use("/api/v1/message", messageRouter)
 
-app.use(express.static(path.join(__dirname, "frontend", "dist")))
+app.use(express.static(path.join(__dirname, "Frontend", "dist")))
 app.use((req, res) => {
-    res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"))
+    res.sendFile(path.join(__dirname, "Frontend", "dist", "index.html"))
 
 })
 
