@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "node --watch index.js",
-    "build": "npm install --prefix Frontend && npm run build --prefix Frontend",
+    "build": "npm install && npm install--prefix Frontend && npm run build --prefix Frontend",
     "start": "node Backend/index.js"
   },
   "keywords": [],
