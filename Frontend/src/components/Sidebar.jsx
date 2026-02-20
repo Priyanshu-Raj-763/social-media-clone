@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { useDispatch, useSelector } from 'react-redux'
 import { logoutUser } from '@/store/authSlice.js'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 import LogoutDialog from './LogoutDialog'
 import CreatePostDialog from './CreatePostDialog'
@@ -12,9 +12,9 @@ import api from '@/lib/axios'
 import ThemeToggleBtn from './ThemeToggleBtn'
 
 const Sidebar = () => {
-  const [selected, setselected] = useState();
+
   const { user } = useSelector(state => state.auth)
-  const {likeNotification} = useSelector(s=>s.realTimeNotification)
+  const { likeNotification } = useSelector(s => s.realTimeNotification)
   const dispatch = useDispatch()
   const links = [
     { title: "Home", icon: <Home /> },
@@ -49,7 +49,6 @@ const Sidebar = () => {
     }
   }
   const sidebarHandler = (text) => {
-    setselected(text)
     if (text === "Logout") {
       setOpenLogoutDiaglog(true)
     } else if (text === "Create") {
@@ -71,16 +70,20 @@ const Sidebar = () => {
   return (
     <div className=' fixed md:block hidden w-1/5 md:top-0 h-screen bg-sidebar text-sidebar-foreground border-r border-sidebar-border z-10'>
       <div className='flex items-center justify-between px-4'>
-        <h1 className='m-4 text-xl font-bold'>Logo</h1>
-        <ThemeToggleBtn/>
+        <Link>
+          <h1 className="m-4 text-xl font-bold bg-linear-to-r from-blue-800 via-blue-500 to-sky-300 bg-clip-text text-transparent">
+            instaZ
+          </h1>
+        </Link>
+        <ThemeToggleBtn />
       </div>
       <div>
         {links.map((link, idx) => (
-          <div onClick={() => sidebarHandler(link.title)} key={idx} className={`flex gap-3 p-4 relative  ${selected ===link.title ? "bg-primary":"hover:bg-primary/50"} transition-all duration-100 ease-in-out cursor-pointer`}>
+          <div onClick={() => sidebarHandler(link.title)} key={idx} className={`flex gap-3 p-4 relative   "hover:bg-primary/50 transition-all duration-100 ease-in-out cursor-pointer`}>
             <div className='relative'>{link.icon}
-           {link.title ==="Notification" && likeNotification.length > 0  &&(
-            <div className='bg-red-600 rounded-full text-center w-4 h-4 text-xs absolute -top-2 -left-2'>{likeNotification?.length}</div>
-           )}
+              {link.title === "Notification" && likeNotification.length > 0 && (
+                <div className='bg-red-600 rounded-full text-center w-4 h-4 text-xs absolute -top-2 -left-2'>{likeNotification?.length}</div>
+              )}
             </div>
             <span >{link.title}</span>
           </div>

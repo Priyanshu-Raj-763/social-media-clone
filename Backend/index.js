@@ -25,7 +25,6 @@ app.use("/api/v1/user", userRouter)
 app.use("/api/v1/post", postRouter)
 app.use("/api/v1/message", messageRouter)
 
-
 if (process.env.NODE_ENV === "production") {
 app.use(express.static(path.join(__dirname, "Frontend", "dist")))
 app.use((req, res) => {
