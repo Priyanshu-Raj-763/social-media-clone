@@ -7,10 +7,12 @@ const RTNSlice = createSlice({
     },
     reducers:{
         setNotification:(state,action)=>{
-            if(action.payload.type ==="like"){
+            if(action.payload?.type ==="like"){
                 state.likeNotification.push((action.payload))
-            }else if(action.payload.type ==="dislike"){
+            }else if(action.payload?.type ==="dislike"){
                 state.likeNotification = state.likeNotification.filter((noti)=>noti.userId !== action.payload.userId)
+            }else{
+                state.likeNotification = action.payload
             }
         }
     }

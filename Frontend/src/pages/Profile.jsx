@@ -4,7 +4,6 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import api from '@/lib/axios';
 import { myErrorRes } from '@/lib/utils';
-import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
@@ -13,22 +12,48 @@ function Profile() {
     const params = useParams()
     const { user } = useSelector(s => s.auth)
     const username = params.id;
-    const [userProfile, setuserProfile] = useState(null);
+    const [userProfile, setuserProfile] = useState("");
     const [selectedTab, setselectedTab] = useState("post");
+    const [isFollowing, setisFollowing] = useState();
+
     useEffect(() => {
         const getUserProfile = async () => {
             try {
                 const res = await api.get(`/user/profile/${username}`);
                 if (res.data.success) {
                     setuserProfile(res.data.data)
+                    setisFollowing(res.data.data?.follower?.includes(user._id) || false)
                 }
             } catch (error) {
                 myErrorRes(error)
             }
         }
-
         getUserProfile()
     }, [username]);
+
+    const followOrUnfollowUser = async () => {
+        if (!userProfile?._id) return;
+        const wasFollowing = userProfile.follower?.includes(user?._id);
+        try {
+            const res = await api.post(`/user/followOrUnfollow/${userProfile?._id}`)
+            if (res.data.success) {
+
+                setuserProfile((prev) => {
+                    setisFollowing(!wasFollowing)
+                    return {
+                        ...prev,
+                        follower: isFollowing ? prev?.follower.filter((id) => id !== user._id) : [...prev?.follower, user._id]
+                    }
+                })
+            }
+
+        } catch (error) {
+
+            myErrorRes(error);
+        }
+    }
+
+
     return (
         <div className='min-h-screen text-foreground px-2'>
             <div className='max-w-4xl flex flex-col gap-6'>
@@ -49,12 +74,12 @@ function Profile() {
                 </section>
                 <div className='flex justify-center gap-6'>
                     {
-                        user?.username === username ? <Link to={"/account/edit"} className={"md:px-20 px-10 py-2 rounded-lg flex items-center bg-secondary text-secondary-foreground hover:bg-secondary/80"} >Edit profile</Link> : <Button className={"md:px-20 px-10 py-2 rounded-lg flex items-center bg-sky-600 text-white cursor-pointer hover:bg-sky-500"} >Follow</Button>
+                        user?.username === username ? <Link to={"/account/edit"} className={"md:px-20 px-10 py-2 rounded-lg flex items-center bg-secondary text-secondary-foreground hover:bg-secondary/80"} >Edit profile</Link> : <Button onClick={followOrUnfollowUser} className={"md:px-20 px-10 py-2 rounded-lg flex items-center bg-sky-600 text-white cursor-pointer hover:bg-sky-500"} >{isFollowing ? "Unfollow" : "Follow"}</Button>
                     }
                     {
-                        user?.username === username ?  <Link className={"md:px-20 px-10 py-2 rounded-lg flex items-center bg-secondary text-secondary-foreground hover:bg-secondary/80"} >View Archieve</Link> : <Button className={"md:px-20 px-10 py-2 rounded-lg flex items-center bg-emerald-600 text-white cursor-pointer hover:bg-emerald-500"} >Message</Button>
+                        user?.username === username ? <Link className={"md:px-20 px-10 py-2 rounded-lg flex items-center bg-secondary text-secondary-foreground hover:bg-secondary/80"} >View Archieve</Link> : <Button className={"md:px-20 px-10 py-2 rounded-lg flex items-center bg-emerald-600 text-white cursor-pointer hover:bg-emerald-500"} >Message</Button>
                     }
-                   
+
                 </div>
             </div>
             <div className='max-w-4xl mt-6'>

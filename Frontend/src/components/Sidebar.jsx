@@ -18,8 +18,8 @@ const Sidebar = () => {
   const dispatch = useDispatch()
   const links = [
     { title: "Home", icon: <Home /> },
-    { title: "Search", icon: <Search /> },
-    { title: "Explore", icon: <TrendingUp /> },
+    // { title: "Search", icon: <Search /> },
+    // { title: "Explore", icon: <TrendingUp /> },
     { title: "Messages", icon: <MessageCircle /> },
     { title: "Notification", icon: <Heart /> },
     { title: "Create", icon: <PlusSquare /> },

@@ -11,7 +11,7 @@ router.post("/likeOrDislike/:id", isAuthenticated, likeDislikePost);
 router.post("/create/comment/:id", isAuthenticated, addComment);
 router.get("/getcomment/:id", isAuthenticated, getAllCommentsOfPost);
 router.delete("/delete/:id", isAuthenticated, deletePost);
-router.get("/bookmark/:id", isAuthenticated, bookmarkPost);
+router.patch("/bookmark/:id", isAuthenticated, bookmarkPost);
 
 
 

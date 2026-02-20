@@ -65,7 +65,6 @@ function App() {
     });
 
     socket.on("notification", (notification) => {
-      console.log(notification)
       dispatch(setNotification(notification));
     });
 

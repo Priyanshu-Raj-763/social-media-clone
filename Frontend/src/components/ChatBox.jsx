@@ -43,7 +43,7 @@ const ChatBox = ({ selectedUser, isOnline }) => {
                 </div>
             </div>
             <hr />
-            <div className='flex-1 overflow-y-auto'>
+            <div className='flex-1 overflow-y-auto hide-scrollbar'>
                 <div className='flex flex-col gap-3 items-center justify-center my-10'>
                     <MyAvatar className={"w-25 h-25"} src={selectedUser?.profilePicUrl} />
                     <Button className={"cursor-pointer"} variant='secondary'>View Profile</Button>
@@ -51,7 +51,7 @@ const ChatBox = ({ selectedUser, isOnline }) => {
                 <div className=''>
                     {messages.length > 0 && messages?.map((msg) => (
                         <div className={`flex p-2   ${msg?.senderId === user?._id ? "justify-end" : "justify-start"}`} key={msg?._id}>
-                            <span className={`p-2 rounded-2xl ${msg?.senderId === user?._id ? "bg-primary" : "bg-sidebar"}`}>
+                            <span className={`p-2 rounded-2xl ${msg?.senderId === user?._id ? "bg-primary" : "bg-chart-5"}`}>
                                 {
                                     msg?.message
                                 }
@@ -61,7 +61,7 @@ const ChatBox = ({ selectedUser, isOnline }) => {
                     ))}
                 </div>
             </div>
-            <div className='flex p-2 items-center gap-2'>
+            <div className='flex p-2 items-center gap-2 mb-10 md:mb-0'>
                 <Input onChange={(e) => setTextMessage(e.target.value)} value={textMessage} className={""} placeholder={"send message"} />
                 <Button onClick={sendMessageHandler} >send</Button>
             </div>

@@ -63,7 +63,7 @@ const Login = () => {
               <Input type={"email"} placeholder="Enter your email" id="email" name="email" className={"px-2 py-1 "} {...register("email", {
                 required: "Email is required"
               })} />
-              {errors.username && (
+              {errors.email && (
                 <p className="text-sm text-red-500 mt-1">
                   {errors.email.message}
                 </p>)}
@@ -73,7 +73,7 @@ const Login = () => {
               <Input type={"password"} placeholder="Enter your password" id="password" name="password" className={"px-2 py-1"} {...register("password", {
                 required: "Password is required"
               })} />
-              {errors.username && (
+              {errors.password && (
                 <p className="text-sm text-red-500 mt-1">
                   {errors.password.message}
                 </p>)}

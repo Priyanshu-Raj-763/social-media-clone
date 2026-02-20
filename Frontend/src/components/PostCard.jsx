@@ -4,37 +4,78 @@ import CommentsDialog from './CommentsDialog'
 import MyAvatar from './MyAvatar'
 import { useDispatch, useSelector } from 'react-redux'
 import { setPosts } from '@/store/postSlice'
-import { useState } from 'react'
-import axios from 'axios'
+import { useEffect, useState } from 'react'
 import { myErrorRes } from '@/lib/utils'
 import api from '@/lib/axios'
+import { Link } from 'react-router-dom'
+import { setLoggedInUser } from '@/store/authSlice'
 
 const PostCard = ({ post }) => {
     const { user } = useSelector(state => state.auth)
     const { posts } = useSelector(state => state.post)
     const dispatch = useDispatch()
-    const [liked, setliked] = useState(post.likes.includes(user._id) || false);
+    const [liked, setLiked] = useState(post.likes.includes(user?._id) ??false);
+    const [isBookmarked, setIsBookmarked] = useState(user?.bookmark?.includes(post?._id) ?? false);
+    // console.log(liked , isBookmarked)
+
+    // useEffect(() => {
+    //     setLiked(post?.likes?.includes(user?._id) ?? false);
+    // }, [post?.likes, user?._id]);
+
+    // useEffect(() => {
+    //     setIsBookmarked(user?.bookmark?.includes(post?._id) ?? false);
+    // }, [user?.bookmark, post?._id]);
+
+
     const toggleLikeHandler = async () => {
+        if (!post?._id) return;
         try {
-            const res = await api.post(`/post/likeOrDislike/${post._id}`, {},)
+            const res = await api.post(`/post/likeOrDislike/${post?._id}`);
+
             if (res.data.success) {
-                setliked(!liked);
-                const updatedPost = posts.map(p => p._id === post._id ? {
-                    ...p,
-                    likes: liked ? p.likes.filter(id => id !== user._id) : [...p.likes, user._id]
-                } : p)
-                dispatch(setPosts(updatedPost))
+                setLiked(!liked);
+                const updatedPost = posts.map(p =>
+                    p?._id === post?._id
+                        ? {
+                            ...p,
+                            likes: liked
+                                ? p.likes.filter(id => id !== user?._id)
+                                : [...p.likes, user?._id]
+                        }
+                        : p
+                );
+                dispatch(setPosts(updatedPost));
             }
         } catch (error) {
-           myErrorRes(error)
+            myErrorRes(error);
+        }
+    };
+
+    const toggleBookmarkHandler = async () => {
+        if (!post?._id) return;
+        try {
+            const res = await api.patch(`/post/bookmark/${post?._id}`)
+            if (res.data.success) {
+                setIsBookmarked(!isBookmarked)
+                const currentBookmarks = user?.bookmark || [];
+                const updatedUser = {
+                    ...user,
+                    bookmark: isBookmarked
+                        ? currentBookmarks.filter(id => id !== post._id)
+                        : [...currentBookmarks, post._id]
+                };
+                dispatch(setLoggedInUser(updatedUser))
+            }
+        } catch (error) {
+            myErrorRes(error)
         }
     }
     return (
-        <div className='mb-5 text-foreground rounded-xl border-b-3 border-ring flex flex-col'>
+        <div className='mb-5 text-foreground rounded-xl border-b-3 border-t-3 border-ring flex flex-col shadow-2xl'>
             <div className='flex flex-1 justify-between items-center p-4 '>
                 <div className='flex gap-3 items-center cursor-pointer'>
                     <MyAvatar src={post?.author?.profilePic?.url} />
-                    <span className='text-sm md:text-md'>{post?.author?.username}</span>
+                    <Link to={`/profile/${post?.author?.username}`} className='text-sm md:text-md'>{post?.author?.username}</Link>
                 </div>
                 <div>
                     <DialogBox post={post} />
@@ -55,14 +96,14 @@ const PostCard = ({ post }) => {
                         </div>
                         <div className='flex gap-1 items-center' >
                             <CommentsDialog post={post} />
-                        <span>{post?.comments?.length}</span>
+                            <span>{post?.comments?.length}</span>
                         </div>
                         <div className='flex items-center' >
-                        <Send  className='cursor-pointer hover:scale-110 active:scale-95 transition-colors duration-200' />
+                            <Send className='cursor-pointer hover:scale-110 active:scale-95 transition-colors duration-200' />
                         </div>
-                        
+
                     </div>
-                    <Bookmark className='cursor-pointer hover:scale-110 active:scale-95 transition-colors duration-200' />
+                    <Bookmark onClick={toggleBookmarkHandler} stroke='currentColor' fill={isBookmarked ? "currentColor" : "none"} className='cursor-pointer hover:scale-110 active:scale-95 transition-colors duration-200' />
                 </div>
                 <div className='space-x-2 mt-2'>
                     <span className='font-semibold text-sm md:text-md'>{post?.author?.username}</span>

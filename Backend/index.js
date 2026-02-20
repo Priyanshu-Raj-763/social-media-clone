@@ -16,7 +16,7 @@ const __dirname = path.resolve()
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 const corsOptions = {
-    origin:[ process.env.VITE_API_URL,"http://localhost:5173"],
+    origin:[ process.env.VITE_API_URL,"http://localhost:5173","http://localhost:4173"],
     credentials: true
 }
 app.use(cookieParser());

@@ -62,11 +62,11 @@ const CommentsDialog = ({ post }) => {
                     <DialogTitle> Post Comments</DialogTitle>
                     <DialogDescription> View and add comments</DialogDescription>
                 </DialogHeader>
-                <div className='flex h-full'>
-                    <div className='w-1/2 flex items-center bg-primary-foreground'>
-                        <img className='h-fit w-full' src={post?.imageUrl?.url} alt="post_image" />
+                <div className='flex h-full bg-background'>
+                    <div className='w-1/2 flex items-center border-r border-border'>
+                        <img className='h-fit w-full' src={post?.image?.url} alt="post_image" />
                     </div>
-                    <div className='w-1/2 bg-primary-foreground text-foreground flex flex-col'>
+                    <div className='w-1/2  text-foreground flex flex-col'>
                         <div className='flex items-center justify-start gap-2 p-4'>
                             <MyAvatar src={post?.author?.profilePic?.url} />
                             <span className='font-bold'>{post?.author?.username}</span>
@@ -81,16 +81,16 @@ const CommentsDialog = ({ post }) => {
                             {
                                 comments?.map((c) => (
                                     <div className='flex justify-start items-center gap-2 px-4 py-2' key={c?._id}>
-                                        <MyAvatar src={c.author?.profilePic.url} />
-                                        <span> {c.author?.username  }</span>
-                                        <span className='font-bold'>{c?.text}</span>
+                                        <MyAvatar src={c.author?.profilePic?.url} />
+                                        <span className='font-semibold text-md'> {c.author?.username}</span>
+                                        <span className='text-sm'>{c?.text}</span>
                                     </div>
                                 ))
                             }
                         </div>
-                        <div className=' mx-2 w-full flex items-center gap-2 justify-center p-4'>
+                        <div className='mx-2 w-full flex items-center gap-2 justify-center p-3'>
                             <Input placeholder={"Add a comment.."} value={text} onChange={(e) => setText(e.target.value)} className={""} />
-                            <Button onClick={addCommentHandler}>Post</Button>
+                            <Button className={"cursor-pointer"} onClick={addCommentHandler}>Post</Button>
                         </div>
                     </div>
                 </div>

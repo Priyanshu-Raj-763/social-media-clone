@@ -33,6 +33,11 @@ const BottomBar = () => {
             setOpenPostDiaglog(true);
         } else if (text === "Profile") {
             navigate(`/profile/${user?.username}`)
+        } else if (text === "Messages") {
+            navigate("/message")
+        }
+        else if (text === "Notification") {
+            navigate("/notification")
         }
     }
 

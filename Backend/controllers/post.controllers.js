@@ -80,17 +80,16 @@ export const likeDislikePost = async (req, res) => {
     try {
         const authorId = req.userId;
         const postId = req.params.id;
-        const post = await Post.findById(postId).select("author");
+        const post = await Post.findById(postId).select("author image");
         if (!post) return res.status(404).json(new ApiResponse(404, {}, "Post not found"))
         const alreadyLiked = await Post.exists({ _id: postId, likes: authorId });
-        const user = await User.findById(authorId).select("profilePicUrl username").lean();
+        const user = await User.findById(authorId).select("profilePic username").lean();
         const postOwnerId = post.author.toString();
         if (alreadyLiked) {
             await Post.updateOne({ _id: postId }, { $pull: { likes: authorId } });
             if (postOwnerId !== authorId) {
                 const notification = {
                     type: "dislike",
-                    userId: authorId,
                     userDetails: user,
                     postId,
                     message: "Your Post was dislike"
@@ -107,11 +106,9 @@ export const likeDislikePost = async (req, res) => {
         if (postOwnerId !== authorId) {
             const notification = {
                 type: "like",
-                userId: authorId,
                 userDetails: user,
-                postId,
+                post,
                 message: "Your Post was liked"
-
             }
             const postOwnerSocketId = getSocketId(postOwnerId);
             if (postOwnerSocketId) {
@@ -137,7 +134,7 @@ export const addComment = async (req, res) => {
             author: userId,
             post: postId
         })
-        await comment.populate("author", "username profilePicUrl")
+        await comment.populate("author", "username profilePic")
         post.comments.push(comment._id)
         await post.save();
 
@@ -196,7 +193,7 @@ export const bookmarkPost = async (req, res) => {
     try {
         const postId = req.params.id;
         const authorId = req.userId;
-        const post = await Post.findById(postId);
+        const post = await Post.exists({_id:postId});
         if (!post) return res.status(404).json(new ApiResponse(404, {}, "post not found"));
         const user = await User.findById(authorId);
         if (user.bookmark.includes(postId)) {

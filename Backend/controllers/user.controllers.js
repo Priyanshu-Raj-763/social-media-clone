@@ -220,7 +220,7 @@ export const followOrUnfollow = async (req, res) => {
                 User.updateOne({ _id: whoIsFollowed }, { $pull: { follower: whoIsFollowing } }),
             ])
             return res.status(200).json(
-                new ApiResponse(200, {}, "Unfollowed Successfully")
+                new ApiResponse(200, {}, "unfollowed")
             )
         } else {
             await Promise.all([
@@ -228,7 +228,7 @@ export const followOrUnfollow = async (req, res) => {
                 User.updateOne({ _id: whoIsFollowed }, { $push: { follower: whoIsFollowing } }),
             ])
             return res.status(200).json(
-                new ApiResponse(200, {}, "followed Successfully")
+                new ApiResponse(200, {}, "followed")
             )
         }
 

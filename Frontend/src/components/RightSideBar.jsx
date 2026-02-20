@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useEffect } from 'react'
 import { setSuggestedUsers } from '@/store/authSlice';
 import api from '@/lib/axios';
+import { Link } from 'react-router-dom';
 
 const RightSideBar = () => {
   const { user, suggestedUsers } = useSelector(store => store.auth)
@@ -26,7 +27,7 @@ const RightSideBar = () => {
     <div className='w-full text-foreground hidden md:block'>
       <div className=' p-4 my-4 flex gap-4 items-center'>
         <MyAvatar className={"w-10 h-10"} src={user?.profilePic?.url} />
-        <span>{user?.username}</span>
+        <Link to={`/profile/${user?.username}`}>{user?.username}</Link>
       </div>
       <SuggestedUser suggestedUsers={suggestedUsers} />
 
