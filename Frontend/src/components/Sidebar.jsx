@@ -79,7 +79,7 @@ const Sidebar = () => {
       </div>
       <div>
         {links.map((link, idx) => (
-          <div onClick={() => sidebarHandler(link.title)} key={idx} className={`flex gap-3 p-4 relative   "hover:bg-primary/50 transition-all duration-100 ease-in-out cursor-pointer`}>
+          <div onClick={() => sidebarHandler(link.title)} key={idx} className={`flex gap-3 p-4 relative hover:bg-primary/50 transition-all duration-100 ease-in-out cursor-pointer`}>
             <div className='relative'>{link.icon}
               {link.title === "Notification" && likeNotification.length > 0 && (
                 <div className='bg-red-600 rounded-full text-center w-4 h-4 text-xs absolute -top-2 -left-2'>{likeNotification?.length}</div>

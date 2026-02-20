@@ -1,16 +1,14 @@
 import MyAvatar from '@/components/MyAvatar'
 import { setNotification } from '@/store/RTNSlice'
 import { BellOff } from 'lucide-react'
-import React, { useEffect } from 'react'
+import  { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 const Notfication = () => {
   const { likeNotification } = useSelector(s => s.realTimeNotification)
   const dispatch = useDispatch()
   useEffect(() => {
-console.log("mounted")
     return () => {
-      console.log("unmounted")
       dispatch(setNotification([]))
     }
   }, []);
