@@ -1,4 +1,4 @@
-# 🚀 YOUR_PROJECT_NAME
+# 🚀 instaZ
 
 A modern full-stack web application built with the MERN stack and real-time communication using Socket.IO. This project focuses on performance, clean UI, and scalable architecture.
 
