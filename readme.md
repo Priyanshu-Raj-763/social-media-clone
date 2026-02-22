@@ -11,7 +11,7 @@ A modern full-stack web application built with the MERN stack and real-time comm
 * 🔐 RESTful API with Express.js
 * 🗄️ MongoDB database integration
 * ⚛️ Component-based architecture with React
-* 📱 Fully responsive design
+* Responsive design (currently being improved for full mobile support)
 * 🚀 Optimized for production
 
 ---
